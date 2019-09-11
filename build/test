@@ -1,0 +1,12 @@
+@Source(type = 'tcp', context='SweetProductionStream',
+@map(type='binary'))
+define stream SweetProductionStream (name string, amount double);
+
+@sink(type='log')
+define stream LowProductionAlertStream (name string, amount double);
+
+-- passthrough data in the SweetProductionStream into LowProducitonAlertStream
+@info(name='query1')
+from SweetProductionStream
+select *
+insert into LowProductionAlertStream;
